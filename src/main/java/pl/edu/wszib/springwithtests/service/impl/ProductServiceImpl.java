@@ -35,7 +35,6 @@ public class ProductServiceImpl implements ProductService {
                         mapper.map(productDTO, Product.class)
                 ), ProductDTO.class);    }
 
-    @Override
     public void remove(Integer integer) {
         dao.deleteById(integer);
     }
