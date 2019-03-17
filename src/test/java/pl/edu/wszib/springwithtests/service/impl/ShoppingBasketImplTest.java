@@ -132,7 +132,7 @@ public class ShoppingBasketImplTest {
                 .orElse(false));
 
     }@Test
-    public void testShoppingBasketExistProductExistShoppingBasketItemExist(){
+    public void testShoppingBasketExistProductExistShoppingBasketItemNotExist(){
         int testShoppingBasketId = 68;
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(354);
@@ -150,13 +150,9 @@ public class ShoppingBasketImplTest {
         ShoppingBasketItem item = new ShoppingBasketItem();
         item.setId(456);
         item.setShoppingBasket(shoppingBasket);
-        item.setAmount(3);
+        item.setAmount(1);
         item.setProduct(mapper.map(productDTO, Product.class));
 
-        Mockito.when(shoppingBasketItemDao
-                .findByProductIdAndShoppingBasketId(
-                        productDTO.getId(), testShoppingBasketId))
-                .thenReturn(item);
 
         Mockito.when(shoppingBasketItemDao
                 .findAllByShoppingBasketId(
@@ -164,9 +160,6 @@ public class ShoppingBasketImplTest {
                 .thenReturn(Collections.singletonList(item));
 
         ShoppingBasketDTO result = basketService.addProduct(testShoppingBasketId, productDTO);
-
-
-        Mockito.verify(shoppingBasketItemDao).save(item);
 
         Assert.assertEquals(testShoppingBasketId, result.getId().intValue());
         Assert.assertEquals(1, result.getItems().size());
@@ -178,7 +171,7 @@ public class ShoppingBasketImplTest {
         .stream().filter(i ->i.getProduct().getId()
                         .equals(productDTO.getId()))
                 .findFirst()
-                .map(i -> i.getAmount() == 4)
+                .map(i -> i.getAmount() == 1)
                 .orElse(false));
 
     }
